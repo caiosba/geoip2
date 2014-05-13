@@ -35,7 +35,7 @@ module Geoip2
     # @param params [Hash] the url params that should be passed in the request
     def get(url, params = {})
       params = params.inject({}){|memo,(k,v)| memo[k.to_s] = v; memo}
-      preform(@base_path + url, :get, params: params) do
+      preform(@base_path + url, :get, { :params => params }) do
         return connection.get(@base_path + url, params).body
       end
     end
@@ -63,7 +63,7 @@ module Geoip2
     # @param url [String] the url to which preform the request
     # @param type [String]
     def preform(url, type, params = {}, &block)
-      ActiveSupport::Notifications.instrument 'Geoip2', request: type, base_url: url, params: params do
+      ActiveSupport::Notifications.instrument 'Geoip2', { :request => type, :base_url => url, :params => params } do
         block.call
       end
     end
@@ -71,7 +71,7 @@ module Geoip2
     #
     # @return an instance of Faraday initialized with all that this gem needs
     def connection
-      @connection ||= Faraday.new(url: @base_url, parallel_manager: Typhoeus::Hydra.new(max_concurrency: @parallel_requests)) do |conn|
+      @connection ||= Faraday.new({ :url => @base_url, :parallel_manager => Typhoeus::Hydra.new({ :max_concurrency => @parallel_requests })) do |conn|
 
         conn.request :basic_auth, @user, @password
 
