@@ -71,7 +71,7 @@ module Geoip2
     #
     # @return an instance of Faraday initialized with all that this gem needs
     def connection
-      @connection ||= Faraday.new({ :url => @base_url, :parallel_manager => Typhoeus::Hydra.new({ :max_concurrency => @parallel_requests })) do |conn|
+      @connection ||= Faraday.new({ :url => @base_url, :parallel_manager => Typhoeus::Hydra.new({ :max_concurrency => @parallel_requests }) }) do |conn|
 
         conn.request :basic_auth, @user, @password
 
