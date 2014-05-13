@@ -1,6 +1,6 @@
 # Geoip2
 
-Integration with MaxMind GeoIP2 API
+Integration with MaxMind GeoIP2 API. This fork has a branch that is compatible with Ruby 1.8.
 
 ## Build Status
 
